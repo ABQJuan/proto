@@ -4,9 +4,10 @@ import './App.css';
 
 
 let defaultStyle = {
-  color: '#fff'
-
+  color: '#fff',
 };
+
+
 
 let fakeServerData = {
   user: {
@@ -119,7 +120,7 @@ class Filter extends Component {
     return (
       <div>
         <img src="" alt="" />
-        <input type="text" />
+        <input type="text" onKeyUp={e=>this.props.onTextChange(e.target.value)}/>
         <span style={defaultStyle}>Filter</span>
       </div>
     );
@@ -129,9 +130,11 @@ class Filter extends Component {
 class Playlist extends Component {
   render() {
     let playlist= this.props.playlist;
+    
     return (
       <div style={{ ...defaultStyle, display: 'inline-block', width: '25%' }}>
         <img src="" alt="" />
+        
         <h3>{playlist.name}</h3>
         <ul>
           {playlist.songs.map((song,i)=>{
@@ -149,53 +152,39 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      serverData: { serverData: {} }
+        serverData: {},
+        filterString: ''  
+      }
     }
-  }
-
-
+  
   componentDidMount() {
-
     setTimeout(() => {
       this.setState({ serverData: fakeServerData })
     }, 1000);
-
-
-
   }
 
   render() {
-
-    /*let playlistElements = []; //for loop vs forEach vs map
-
-    if (this.state.serverData.user) {
-      this.state.serverData.user.playlists.forEach(playlist=>
-        playlistElements.push(<Playlist playlist={playlist} />)
-      )
-    }
-
-    /*if (this.state.serverData.user) {
-      
-      for (let i = 0; i < this.state.serverData.user.playlists.length; i++) {
-        let playlist = this.state.serverData.user.playlists[i];
-        playlistElements.push(<Playlist playlist={playlist} />);
-      }
-    }*/
-
     return (
       <div className="App">
-
         {this.state.serverData.user ?
           <div>
-            <h1 style={{ ...defaultStyle, 'fontSize': '54px' }}>{this.state.serverData.user.name}&rsquo;s Playlist</h1>
+            <h1 style={{ ...defaultStyle, 'fontSize': '54px' }}>
+              {this.state.serverData.user.name}&rsquo;s Playlist
+            </h1>
+
             <PlayListCounter playlists={this.state.serverData.user.playlists} />
+            
             <HoursCounter playlists={this.state.serverData.user.playlists} />
-            <Filter />
+            
+            <Filter onTextChange={text=> {
+              this.setState({filterString: text})}
+            }/>
            
-            {this.state.serverData.user.playlists.map((playlist,index) => {
-              return <Playlist playlist={playlist} key={index}/>
-              })
-            }
+            {this.state.serverData.user.playlists.filter(playlist => 
+              playlist.name.toLowerCase().includes(this.state.filterString.toLowerCase())
+            ).map((playlist,i) => {
+              return <Playlist playlist = {playlist} key={i} />}
+            )}
                          
           </div> : <h1 style={{ ...defaultStyle, 'fontSize': '25px' }}>Loading...</h1>
         }

@@ -35,3 +35,7 @@ body {
 h1{
   font-size: 55px;
 }
+
+.App .Playlist ul {
+  text-decoration: none;
+}
