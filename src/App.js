@@ -16,16 +16,16 @@ let fakeServerData = {
         name: "My favorites",
         songs: [
           {
-            name:'Beat It',
-            duration:150
-          }, 
+            name: 'Beat It',
+            duration: 150
+          },
           {
-            name:'Cannilloni Makaroni',
-            duration:123
-          }, 
+            name: 'Cannilloni Makaroni',
+            duration: 123
+          },
           {
-            name:'Rosa Helikopter',
-            duration:142
+            name: 'Rosa Helikopter',
+            duration: 142
           }
         ]
       },
@@ -33,16 +33,16 @@ let fakeServerData = {
         name: "60's favorites",
         songs: [
           {
-            name:'Stand By Me',
-            duration:145
+            name: 'Stand By Me',
+            duration: 145
           },
           {
-            name:'The Wanderer', 
-            duration:154
+            name: 'The Wanderer',
+            duration: 154
           },
           {
-            name:"I'm a Believer",
-            duration:123
+            name: "I'm a Believer",
+            duration: 123
           }
         ]
       },
@@ -50,16 +50,16 @@ let fakeServerData = {
         name: "Disco Mania",
         songs: [
           {
-            name:'Last Dance',
-            duration:132
+            name: 'Last Dance',
+            duration: 132
           },
           {
-            name:'Dicso Inferno', 
+            name: 'Dicso Inferno',
             duration: 101
           },
           {
-            name:'We Are Family',
-            duration:99
+            name: 'We Are Family',
+            duration: 99
           }
         ]
       },
@@ -67,16 +67,16 @@ let fakeServerData = {
         name: "90's Best",
         songs: [
           {
-            name:'Smells Like Teen Spirit', 
-            duration:90
+            name: 'Smells Like Teen Spirit',
+            duration: 90
           },
           {
-            name:'Wannabe', 
-            duration:111
+            name: 'Wannabe',
+            duration: 111
           },
           {
-            name:'...Baby One More Time',
-            duration:122
+            name: '...Baby One More Time',
+            duration: 122
           }
         ]
       }
@@ -98,18 +98,18 @@ class PlayListCounter extends Component {
 
 class HoursCounter extends Component {
   render() {
-    let allSongs = this.props.playlists.reduce((songs,eachPlaylist)=>{
+    let allSongs = this.props.playlists.reduce((songs, eachPlaylist) => {
       return songs.concat(eachPlaylist.songs)
     }, []);
     //console.log(allSongs);
-    let totalDuration = allSongs.reduce((sum,eachSong)=>{
-      return Math.round((sum + eachSong.duration)/60);
-    },0);
+    let totalDuration = allSongs.reduce((sum, eachSong) => {
+      return Math.round((sum + eachSong.duration) / 60);
+    }, 0);
     return (
       <div style={{ ...defaultStyle, width: "40%", display: 'inline-block' }}>
         <h2>{totalDuration} hours</h2>
       </div>
-      
+
     );
   }
 }
@@ -128,14 +128,15 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
+    let playlist= this.props.playlist;
     return (
       <div style={{ ...defaultStyle, display: 'inline-block', width: '25%' }}>
         <img src="" alt="" />
-        <h3>Playlist Name</h3>
+        <h3>{playlist.name}</h3>
         <ul>
-          <li>Song 1</li>
-          <li>Song 2</li>
-          <li>Song 3</li>
+          {playlist.songs.map((song,i)=>{
+             return <li key={i}>{song.name}</li>
+          })}
         </ul>
       </div>
 
@@ -164,6 +165,23 @@ class App extends Component {
   }
 
   render() {
+
+    /*let playlistElements = []; //for loop vs forEach vs map
+
+    if (this.state.serverData.user) {
+      this.state.serverData.user.playlists.forEach(playlist=>
+        playlistElements.push(<Playlist playlist={playlist} />)
+      )
+    }
+
+    /*if (this.state.serverData.user) {
+      
+      for (let i = 0; i < this.state.serverData.user.playlists.length; i++) {
+        let playlist = this.state.serverData.user.playlists[i];
+        playlistElements.push(<Playlist playlist={playlist} />);
+      }
+    }*/
+
     return (
       <div className="App">
 
@@ -171,13 +189,15 @@ class App extends Component {
           <div>
             <h1 style={{ ...defaultStyle, 'fontSize': '54px' }}>{this.state.serverData.user.name}&rsquo;s Playlist</h1>
             <PlayListCounter playlists={this.state.serverData.user.playlists} />
-            <HoursCounter playlists={this.state.serverData.user.playlists}/>
+            <HoursCounter playlists={this.state.serverData.user.playlists} />
             <Filter />
-            <Playlist />
-            <Playlist />
-            <Playlist />
-            <Playlist />
-          </div> : <h1 style={{...defaultStyle, 'fontSize':'25px'}}>Loading...</h1>
+           
+            {this.state.serverData.user.playlists.map((playlist,index) => {
+              return <Playlist playlist={playlist} key={index}/>
+              })
+            }
+                         
+          </div> : <h1 style={{ ...defaultStyle, 'fontSize': '25px' }}>Loading...</h1>
         }
       </div>
     );
