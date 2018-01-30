@@ -69,7 +69,7 @@ let fakeServerData = {
         songs: [
           {
             name: 'Smells Like Teen Spirit',
-            duration: 90
+            duration: 900
           },
           {
             name: 'Wannabe',
@@ -104,11 +104,12 @@ class HoursCounter extends Component {
     }, []);
     //console.log(allSongs);
     let totalDuration = allSongs.reduce((sum, eachSong) => {
-      return Math.round((sum + eachSong.duration) / 60);
+      return (sum + eachSong.duration);
     }, 0);
+    //console.log(totalDuration);
     return (
       <div style={{ ...defaultStyle, width: "40%", display: 'inline-block' }}>
-        <h2>{totalDuration} hours</h2>
+        <h2>{Math.round(totalDuration/60)} minutes</h2>
       </div>
 
     );
@@ -164,6 +165,10 @@ class App extends Component {
   }
 
   render() {
+
+    let playListToRender = this.state.serverData.user ? this.state.serverData.user.playlists.filter(playlist => 
+              playlist.name.toLowerCase().includes(this.state.filterString.toLowerCase())) : [];
+    
     return (
       <div className="App">
         {this.state.serverData.user ?
@@ -172,17 +177,15 @@ class App extends Component {
               {this.state.serverData.user.name}&rsquo;s Playlist
             </h1>
 
-            <PlayListCounter playlists={this.state.serverData.user.playlists} />
+            <PlayListCounter playlists={playListToRender} />
             
-            <HoursCounter playlists={this.state.serverData.user.playlists} />
+            <HoursCounter playlists={playListToRender} />
             
             <Filter onTextChange={text=> {
               this.setState({filterString: text})}
             }/>
            
-            {this.state.serverData.user.playlists.filter(playlist => 
-              playlist.name.toLowerCase().includes(this.state.filterString.toLowerCase())
-            ).map((playlist,i) => {
+            {playListToRender.map((playlist,i) => {
               return <Playlist playlist = {playlist} key={i} />}
             )}
                          
