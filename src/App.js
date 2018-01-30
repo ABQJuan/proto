@@ -101,7 +101,7 @@ class HoursCounter extends Component {
     let allSongs = this.props.playlists.reduce((songs,eachPlaylist)=>{
       return songs.concat(eachPlaylist.songs)
     }, []);
-    console.log(allSongs);
+    //console.log(allSongs);
     let totalDuration = allSongs.reduce((sum,eachSong)=>{
       return Math.round((sum + eachSong.duration)/60);
     },0);
