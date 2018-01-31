@@ -220,8 +220,12 @@ class App extends Component {
               {return <Playlist playlist={playlist} key={i}/>}
             )}  
           </div> 
-          : <button onClick={() => window.location = 'http://localhost:8888/login'} 
-                    style={{ padding: '20px', fontSize: '50px', marginTop: '10px' }}>Sign in with Spotify</button>  
+          : <button onClick={() =>
+              window.location = window.location.href.includes('localhost') 
+              ? 'http://localhost:8888/login' 
+              : 'https://mpjdavid.herokuapp.com/login'           
+            } 
+              style={{ padding: '20px', fontSize: '50px', marginTop: '10px' }}>Sign in with Spotify</button>  
         }
       </div>
     );
