@@ -44,7 +44,7 @@ class Filter extends Component {
       <div className='filter'>
        
         <input type="text" placeholder="Type to filter" onKeyUp={e => this.props.onTextChange(e.target.value)} />
-        {/*<span style={defaultStyle}>Filter</span>*/}
+        
       </div>
     );
   }
@@ -131,14 +131,13 @@ class App extends Component {
               duration: trackData.duration_ms /1000
             }))
           })
-          //console.log(playlists);
+         
           return playlists;
         })
         return playlistsPromise
       })
       .then(playlists => this.setState({  
         playlists: playlists.map(item=> {
-          //console.log(item.trackDatas);
           return {
             name: item.name,
             imageUrl: item.images[0].url,
@@ -191,6 +190,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;
