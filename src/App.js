@@ -40,10 +40,16 @@ class HoursCounter extends Component {
 
 class Filter extends Component {
   render() {
+    let inputStyle = {
+      padding:"10px",
+      width:"33%",
+      borderRadius:"5px",
+      border:"none"
+    }
     return (
       <div className='filter'>
        
-        <input type="text" placeholder="Type to filter" onKeyUp={e => this.props.onTextChange(e.target.value)} />
+        <input style={inputStyle} type="text" placeholder="Type to filter" onKeyUp={e => this.props.onTextChange(e.target.value)} />
         
       </div>
     );
@@ -58,17 +64,31 @@ class Playlist extends Component {
       ...defaultStyle,
       display: "inline-block",
       width: "20%",
-      color:"#333"
-     
+      color:"#333",
+      background:"#ccc",
+      border: "1px #333 solid",
+      margin: "20px 10px 5px 10px",
+      overflow: "auto"
     }
     let ulStyle = {
       listStyle:'square',
       textAlign:'left'
     }
 
+    let imgStyle = {
+      width:"100%"
+    }
+    
+    let inputStyle = {
+      padding:"10px",
+      width:"33%",
+      boderRadius:"5px",
+      border:"none"
+    }
+
     return (
       <div className="playList" style={playlistStyle}>
-        <img src={playlist.imageUrl}  alt="Test"/>
+        <img style={imgStyle} src={playlist.imageUrl}  alt="Test"/>
         <h3>{playlist.name}</h3>
         <ul style={ulStyle}>
           {playlist.songs.map((song, i) => {
