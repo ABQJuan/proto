@@ -3,89 +3,10 @@ import queryString from 'query-string';
 import './App.css';
 
 
-let defaultStyle = {
-  color: '#fff',
+const defaultStyle = {
+  color: '#fff'
 };
 
-
-
-let fakeServerData = {
-  user: {
-    name: "John",
-    playlists: [
-      {
-        name: "My favorites",
-        songs: [
-          {
-            name: 'Beat It',
-            duration: 150
-          },
-          {
-            name: 'Cannilloni Makaroni',
-            duration: 123
-          },
-          {
-            name: 'Rosa Helikopter',
-            duration: 142
-          }
-        ]
-      },
-      {
-        name: "60's favorites",
-        songs: [
-          {
-            name: 'Stand By Me',
-            duration: 145
-          },
-          {
-            name: 'The Wanderer',
-            duration: 154
-          },
-          {
-            name: "I'm a Believer",
-            duration: 123
-          }
-        ]
-      },
-      {
-        name: "Disco Mania",
-        songs: [
-          {
-            name: 'Last Dance',
-            duration: 132
-          },
-          {
-            name: 'Dicso Inferno',
-            duration: 101
-          },
-          {
-            name: 'We Are Family',
-            duration: 99
-          }
-        ]
-      },
-      {
-        name: "90's Best",
-        songs: [
-          {
-            name: 'Smells Like Teen Spirit',
-            duration: 900
-          },
-          {
-            name: 'Wannabe',
-            duration: 111
-          },
-          {
-            name: '...Baby One More Time',
-            duration: 122
-          }
-        ]
-      }
-
-    ]
-
-  }
-}
 
 class PlayListCounter extends Component {
   render() {
@@ -99,15 +20,15 @@ class PlayListCounter extends Component {
 
 class HoursCounter extends Component {
   render() {
-    //console.log(this.props);
+    
     let allSongs = this.props.playlists.reduce((songs, eachPlaylist) => {
       return songs.concat(eachPlaylist.songs)
     }, []);
-    //console.log(allSongs);
+   
     let totalDuration = allSongs.reduce((sum, eachSong) => {
       return (sum + eachSong.duration);
     }, 0);
-    //console.log(totalDuration);
+    
     return (
       <div style={{ ...defaultStyle, width: "40%", display: 'inline-block' }}>
         <h2>{Math.round(totalDuration / 60)} minutes</h2>
@@ -120,9 +41,9 @@ class HoursCounter extends Component {
 class Filter extends Component {
   render() {
     return (
-      <div>
-        <img src="" alt="" />
-        <input type="text" onKeyUp={e => this.props.onTextChange(e.target.value)} />
+      <div className='filter'>
+       
+        <input type="text" placeholder="Type to filter" onKeyUp={e => this.props.onTextChange(e.target.value)} />
         {/*<span style={defaultStyle}>Filter</span>*/}
       </div>
     );
@@ -133,12 +54,23 @@ class Playlist extends Component {
   render() {
     let playlist = this.props.playlist;
 
-    return (
-      <div style={{ ...defaultStyle, display: 'inline-block', width: '25%' }}>
-        <img src={playlist.imageUrl} style={{width:'160px',marginTop:'20px'}} alt="Test"/>
+    let playlistStyle = {
+      ...defaultStyle,
+      display: "inline-block",
+      width: "20%",
+      color:"#333"
+     
+    }
+    let ulStyle = {
+      listStyle:'square',
+      textAlign:'left'
+    }
 
+    return (
+      <div className="playList" style={playlistStyle}>
+        <img src={playlist.imageUrl}  alt="Test"/>
         <h3>{playlist.name}</h3>
-        <ul>
+        <ul style={ulStyle}>
           {playlist.songs.map((song, i) => {
             return <li key={i}>{song.name}</li>
           })}

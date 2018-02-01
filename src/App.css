@@ -1,5 +1,6 @@
 body {
   background: #333;
+  box-sizing: border-box;
 }
 
 .App {
@@ -36,6 +37,21 @@ h1{
   font-size: 55px;
 }
 
-.App .Playlist ul {
-  text-decoration: none;
+.App .playList  {
+  background: #ccc;
+  border: 1px #333 solid;
+  margin:20px 10px 5px 10px;
+  overflow: auto;
+}
+
+.App .playList img {
+  width:100%;
+}
+
+.App .filter input {
+  padding: 10px;
+  width:33%;
+  border-radius: 5px;
+  border:none;
+  
 }

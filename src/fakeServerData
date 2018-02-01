@@ -1,0 +1,77 @@
+let fakeServerData = {
+  user: {
+    name: "John",
+    playlists: [
+      {
+        name: "My favorites",
+        songs: [
+          {
+            name: 'Beat It',
+            duration: 150
+          },
+          {
+            name: 'Cannilloni Makaroni',
+            duration: 123
+          },
+          {
+            name: 'Rosa Helikopter',
+            duration: 142
+          }
+        ]
+      },
+      {
+        name: "60's favorites",
+        songs: [
+          {
+            name: 'Stand By Me',
+            duration: 145
+          },
+          {
+            name: 'The Wanderer',
+            duration: 154
+          },
+          {
+            name: "I'm a Believer",
+            duration: 123
+          }
+        ]
+      },
+      {
+        name: "Disco Mania",
+        songs: [
+          {
+            name: 'Last Dance',
+            duration: 132
+          },
+          {
+            name: 'Dicso Inferno',
+            duration: 101
+          },
+          {
+            name: 'We Are Family',
+            duration: 99
+          }
+        ]
+      },
+      {
+        name: "90's Best",
+        songs: [
+          {
+            name: 'Smells Like Teen Spirit',
+            duration: 900
+          },
+          {
+            name: 'Wannabe',
+            duration: 111
+          },
+          {
+            name: '...Baby One More Time',
+            duration: 122
+          }
+        ]
+      }
+
+    ]
+
+  }
+}
