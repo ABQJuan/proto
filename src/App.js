@@ -103,7 +103,7 @@ class HoursCounter extends Component {
     let allSongs = this.props.playlists.reduce((songs, eachPlaylist) => {
       return songs.concat(eachPlaylist.songs)
     }, []);
-    console.log(allSongs);
+    //console.log(allSongs);
     let totalDuration = allSongs.reduce((sum, eachSong) => {
       return (sum + eachSong.duration);
     }, 0);
@@ -135,7 +135,7 @@ class Playlist extends Component {
 
     return (
       <div style={{ ...defaultStyle, display: 'inline-block', width: '25%' }}>
-        <img src={playlist.imageUrl} style={{width:'160px',marginTop:'20px'}} />
+        <img src={playlist.imageUrl} style={{width:'160px',marginTop:'20px'}} alt="Test"/>
 
         <h3>{playlist.name}</h3>
         <ul>
@@ -210,7 +210,7 @@ class App extends Component {
           return {
             name: item.name,
             imageUrl: item.images[0].url,
-            songs: item.trackDatas.slice(0,3)//.map(trackData => ({name:trackData.name})
+            songs: item.trackDatas.slice(0,3)
           }
         })    
       }))   
@@ -221,10 +221,13 @@ class App extends Component {
     let playListToRender = 
       this.state.user && 
       this.state.playlists 
-        ? this.state.playlists.filter(playlist =>
-          playlist.name.toLowerCase().includes(
-          this.state.filterString.toLowerCase())) 
-        : [];
+        ? this.state.playlists.filter(playlist => {
+          let matchesPlayList = playlist.name.toLowerCase()
+              .includes(this.state.filterString.toLowerCase())
+          let matchesSong = playlist.songs.find(song=> song.name.toLowerCase()
+            .includes(this.state.filterString.toLowerCase()))
+          return matchesPlayList || matchesSong
+        }) : [];
 
     return (
       <div className="App">
@@ -242,7 +245,8 @@ class App extends Component {
             }}/>
             {playListToRender.map((playlist, i) => 
               {return <Playlist playlist={playlist} key={i}/>}
-            )}  
+            )}
+            
           </div> 
           : <button onClick={() =>
               window.location = window.location.href.includes('localhost') 
