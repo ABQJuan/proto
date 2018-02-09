@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
+import 'reset-css/reset.css';
 import queryString from 'query-string';
 import './App.css';
 
 
 const defaultStyle = {
-  color: '#fff'
+  color: '#fff',
+  'fontFamily': "'Lucida Sans Unicode', 'Lucida Grande', sans-serif"
 };
 
 
 class PlayListCounter extends Component {
   render() {
+    let playListStyle = {
+      ...defaultStyle, 
+      width: "40%", 
+      display: 'inline-block',
+      margin: '0 0 20px 0',
+      'fontSize':'24px',
+      'lineHeight': '1.5rem'
+    }
     return (
-      <div style={{ ...defaultStyle, width: "40%", display: 'inline-block' }}>
+      <div style={playListStyle}>
         <h2>{this.props.playlists.length} playlists</h2>
       </div>
     );
@@ -20,7 +30,7 @@ class PlayListCounter extends Component {
 
 class HoursCounter extends Component {
   render() {
-    
+    let minOrhrs;  
     let allSongs = this.props.playlists.reduce((songs, eachPlaylist) => {
       return songs.concat(eachPlaylist.songs)
     }, []);
@@ -29,9 +39,25 @@ class HoursCounter extends Component {
       return (sum + eachSong.duration);
     }, 0);
     
+    let hourCounterStyle = {
+      ...defaultStyle, 
+      width: "40%", 
+      display: 'inline-block',
+      margin: '0 0 20px 0',
+      'fontSize': '24px'
+    }
+  
+    if (Math.round(totalDuration / 60)>60){
+      console.log((totalDuration / 3600).toFixed(2));
+      totalDuration=(totalDuration / 3600).toFixed(2);
+      minOrhrs = 'hours';
+    } else {
+      totalDuration = (totalDuration / 60).toFixed(1);
+      minOrhrs = 'minutes';
+    }
     return (
-      <div style={{ ...defaultStyle, width: "40%", display: 'inline-block' }}>
-        <h2>{Math.round(totalDuration / 60)} minutes</h2>
+      <div style={hourCounterStyle}>
+        <h2>{totalDuration} {minOrhrs}</h2>
       </div>
 
     );
@@ -44,7 +70,8 @@ class Filter extends Component {
       padding:"10px",
       width:"33%",
       borderRadius:"5px",
-      border:"none"
+      border:"none",
+      
     }
     return (
       <div className='filter'>
@@ -62,37 +89,47 @@ class Playlist extends Component {
 
     let playlistStyle = {
       ...defaultStyle,
-      display: "inline-block",
-      width: "20%",
+      /*display: "inline-block",*/
+      width: "31%",
       color:"#333",
       background:"#ccc",
       border: "1px #333 solid",
+      borderRadius: "5px",
       margin: "20px 10px 5px 10px",
-      overflow: "auto"
+      overflow: "hidden",
+      boxShadow: "0 1px 5px rgba(255,255,255,0.6)",
+      maxHeight: "auto",
+      border:"none"
     }
     let ulStyle = {
       listStyle:'square',
-      textAlign:'left'
+      textAlign:'center',
+      fontSize:'0.9rem',
+      padding: '3px'
+
     }
 
     let imgStyle = {
-      width:"100%"
+      width:"100%",
+      height:"auto"
     }
     
-    let inputStyle = {
-      padding:"10px",
-      width:"33%",
-      boderRadius:"5px",
-      border:"none"
+    
+    
+    let h3Style = {
+      "padding":"2px 0",
+      fontWeight:'bold',
+      textAlign:'center',
+      fontSize:'1.1rem'
     }
 
     return (
       <div className="playList" style={playlistStyle}>
         <img style={imgStyle} src={playlist.imageUrl}  alt="Test"/>
-        <h3>{playlist.name}</h3>
+        <h3 style={h3Style}>{playlist.name}</h3>
         <ul style={ulStyle}>
           {playlist.songs.map((song, i) => {
-            return <li key={i}>{song.name}</li>
+            return <li key={i}>{(song.name).substring(0,30)}</li>
           })}
         </ul>
       </div>
@@ -180,22 +217,32 @@ class App extends Component {
           return matchesPlayList || matchesSong
         }) : [];
 
+    let h1Style ={ 
+      ...defaultStyle, 
+      'fontSize': '54px',
+      'margin':'2rem 0',
+      textAlign:'center',
+     }
+     let filterStyle={
+       
+     }
+
     return (
       <div className="App">
         {this.state.user 
           ?
           <div>
-            <h1 style={{ ...defaultStyle, 'fontSize': '54px' }}>
+            <h1 style={h1Style}>
               {this.state.user.name}&rsquo;s Playlist
             </h1>
       
             <PlayListCounter playlists={playListToRender} />
             <HoursCounter playlists={playListToRender} />
-            <Filter onTextChange={text => {
+            <Filter style={filterStyle} onTextChange={text => {
               this.setState({ filterString: text })
             }}/>
             {playListToRender.map((playlist, i) => 
-              {return <Playlist playlist={playlist} key={i}/>}
+              {return <Playlist className="Playlist" playlist={playlist} key={i}/>}
             )}
             
           </div> 
